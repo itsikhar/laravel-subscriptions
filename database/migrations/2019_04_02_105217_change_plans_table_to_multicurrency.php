@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPricesColumnToPlans extends Migration
+class ChangePlansTableToMulticurrency extends Migration
 {
 	/**
 	* Run the migrations.
@@ -16,6 +16,7 @@ class AddPricesColumnToPlans extends Migration
 		Schema::table('plans', function (Blueprint $table) {
 			$table->dropColumn('currency');
 			$table->{$this->jsonable()}('price')->default(null)->change();
+			$table->{$this->jsonable()}('signup_fee')->default(null)->change();
 		});
 	}
 
@@ -27,6 +28,7 @@ class AddPricesColumnToPlans extends Migration
 	public function down()
 	{
 		Schema::table('plans', function (Blueprint $table) {
+			$table->decimal('signup_fee', 8, 2)->default(0)->change();
 			$table->decimal('price', 8, 2)->default(0)->change();
 			$table->string('currency', 3)->after('signup_fee');
 		});

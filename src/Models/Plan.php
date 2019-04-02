@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property array                                                                                        $description
  * @property bool                                                                                         $is_active
  * @property array                                                                                        $price
- * @property float                                                                                        $signup_fee
+ * @property array                                                                                        $signup_fee
  * @property int                                                                                          $trial_period
  * @property string                                                                                       $trial_interval
  * @property int                                                                                          $invoice_period
@@ -103,7 +103,7 @@ class Plan extends Model implements Sortable
         'slug' => 'string',
         'is_active' => 'boolean',
         'price' => 'array',
-        'signup_fee' => 'float',
+        'signup_fee' => 'array',
         'trial_period' => 'integer',
         'trial_interval' => 'string',
         'invoice_period' => 'integer',
@@ -177,7 +177,8 @@ class Plan extends Model implements Sortable
             'is_active' => 'sometimes|boolean',
             'price' => 'required|array',
             'price.*' => 'required|numeric',
-            'signup_fee' => 'required|numeric',
+            'signup_fee' => 'required|array',
+            'signup_fee.*' => 'required|numeric',
             'trial_period' => 'sometimes|integer|max:10000',
             'trial_interval' => 'sometimes|in:hour,day,week,month',
             'invoice_period' => 'sometimes|integer|max:10000',
