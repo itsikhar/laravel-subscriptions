@@ -22,9 +22,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property array                                                                                        $name
  * @property array                                                                                        $description
  * @property bool                                                                                         $is_active
- * @property float                                                                                        $price
+ * @property array                                                                                        $price
  * @property float                                                                                        $signup_fee
- * @property string                                                                                       $currency
  * @property int                                                                                          $trial_period
  * @property string                                                                                       $trial_interval
  * @property int                                                                                          $invoice_period
@@ -45,7 +44,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan ordered($direction = 'asc')
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereActiveSubscribersLimit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\Plan whereGraceInterval($value)
@@ -85,7 +83,6 @@ class Plan extends Model implements Sortable
         'is_active',
         'price',
         'signup_fee',
-        'currency',
         'trial_period',
         'trial_interval',
         'invoice_period',
@@ -105,9 +102,8 @@ class Plan extends Model implements Sortable
     protected $casts = [
         'slug' => 'string',
         'is_active' => 'boolean',
-        'price' => 'float',
+        'price' => 'array',
         'signup_fee' => 'float',
-        'currency' => 'string',
         'trial_period' => 'integer',
         'trial_interval' => 'string',
         'invoice_period' => 'integer',
@@ -179,9 +175,9 @@ class Plan extends Model implements Sortable
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:10000',
             'is_active' => 'sometimes|boolean',
-            'price' => 'required|numeric',
+            'price' => 'required|array',
+            'price.*' => 'required|numeric',
             'signup_fee' => 'required|numeric',
-            'currency' => 'required|alpha|size:3',
             'trial_period' => 'sometimes|integer|max:10000',
             'trial_interval' => 'sometimes|in:hour,day,week,month',
             'invoice_period' => 'sometimes|integer|max:10000',
