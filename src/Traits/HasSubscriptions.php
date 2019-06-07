@@ -9,6 +9,7 @@ use Rinvex\Subscriptions\Services\Period;
 use Illuminate\Database\Eloquent\Collection;
 use Rinvex\Subscriptions\Models\PlanSubscription;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Carbon\Carbon;
 
 trait HasSubscriptions
 {
