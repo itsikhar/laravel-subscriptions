@@ -91,17 +91,22 @@ trait HasSubscriptions
      *
      * @return \Rinvex\Subscriptions\Models\PlanSubscription
      */
-    public function newSubscription($subscription, Plan $plan): PlanSubscription
+    public function newSubscription($subscription, Plan $plan, $receivedPayment, $allowTrialPeriod): PlanSubscription
     {
         $trial = new Period($plan->trial_interval, $plan->trial_period, now());
         $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
-
-        return $this->subscriptions()->create([
+		$end_date = new Carbon($period->getEndDate());
+		
+		if(!$receivedPayment){
+			$end_date =  new Carbon($period->getStartDate());
+			$end_date->subDays(1);
+		}
+		return $this->subscriptions()->create([
             'name' => $subscription,
             'plan_id' => $plan->getKey(),
             'trial_ends_at' => $trial->getEndDate(),
             'starts_at' => $period->getStartDate(),
-            'ends_at' => $period->getEndDate(),
+            'ends_at' => $plan->trial_period > 0 && $allowTrialPeriod ? $trial->getEndDate() : $end_date,
         ]);
     }
 }
