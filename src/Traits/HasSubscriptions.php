@@ -95,7 +95,7 @@ trait HasSubscriptions
     public function newSubscription($subscription, Plan $plan, $receivedPayment, $allowTrialPeriod): PlanSubscription
     {
         $trial = new Period($plan->trial_interval, $plan->trial_period, now());
-        $period = new Period($plan->invoice_interval, $plan->invoice_period, $trial->getEndDate());
+        $period = new Period($plan->invoice_interval, $plan->invoice_period, $plan->trial_period > 0 && $allowTrialPeriod?  $trial->getEndDate() : now());
 		$end_date = new Carbon($period->getEndDate());
 		
 		if(!$receivedPayment){
@@ -108,6 +108,7 @@ trait HasSubscriptions
             'trial_ends_at' => $trial->getEndDate(),
             'starts_at' => $period->getStartDate(),
             'ends_at' => $plan->trial_period > 0 && $allowTrialPeriod ? $trial->getEndDate() : $end_date,
+			'cancel_at' => $plan->trial_period > 0 && $allowTrialPeriod ? $trial->getEndDate() : null
         ]);
     }
 }
