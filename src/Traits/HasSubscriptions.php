@@ -95,7 +95,7 @@ trait HasSubscriptions
     public function newSubscription($subscription, Plan $plan, $receivedPayment, $allowTrialPeriod): PlanSubscription
     {
         $trial = new Period($plan->trial_interval, $plan->trial_period, now());
-        $period = new Period($plan->invoice_interval, $plan->invoice_period, $plan->trial_period > 0 && $allowTrialPeriod?  $trial->getEndDate() : now());
+        $period = new Period($plan->invoice_interval, $plan->invoice_period, $plan->trial_period > 0 && $allowTrialPeriod == true ?  $trial->getEndDate() : now());
 		$end_date = new Carbon($period->getEndDate());
 		
 		if(!$receivedPayment){
