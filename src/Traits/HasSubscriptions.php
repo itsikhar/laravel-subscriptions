@@ -105,7 +105,7 @@ trait HasSubscriptions
 		return $this->subscriptions()->create([
             'name' => $subscription,
             'plan_id' => $plan->getKey(),
-            'trial_ends_at' => $trial->getEndDate(),
+            'trial_ends_at' => $allowTrialPeriod ? $trial->getEndDate() : null,
             'starts_at' => $period->getStartDate(),
             'ends_at' => $plan->trial_period > 0 && $allowTrialPeriod ? $trial->getEndDate() : $end_date,
 			'cancel_at' => $plan->trial_period > 0 && $allowTrialPeriod ? $trial->getEndDate() : null
