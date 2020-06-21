@@ -69,7 +69,7 @@ class PlanSubscription extends Model
     use BelongsToPlan;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
+   // use CacheableEloquent;
 
     /**
      * {@inheritdoc}

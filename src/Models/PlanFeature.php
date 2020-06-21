@@ -58,7 +58,7 @@ class PlanFeature extends Model implements Sortable
     use SortableTrait;
     use HasTranslations;
     use ValidatingTrait;
-    use CacheableEloquent;
+    //use CacheableEloquent;
 
     /**
      * {@inheritdoc}
